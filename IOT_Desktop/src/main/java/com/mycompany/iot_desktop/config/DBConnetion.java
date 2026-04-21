@@ -9,7 +9,7 @@ import java.sql.DriverManager;
 
 /**
  *
- * @author ADMIN
+ * @author ADMIN dcm cho vinh ngu
  */
 public class DBConnetion {
     private static final String URL = "jdbc:mysql://localhost:3306/iot_dashboard";
