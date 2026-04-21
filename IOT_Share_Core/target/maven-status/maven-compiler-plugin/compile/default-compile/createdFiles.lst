@@ -1,0 +1,5 @@
+com\mycompany\iot_share_core\IOT_Share_Core.class
+com\mycompany\iot_share_core\entity\NguoiDung.class
+com\mycompany\iot_share_core\entity\ThietBi.class
+com\mycompany\iot_share_core\entity\NhatKiHoatDong.class
+com\mycompany\iot_share_core\entity\NhatKiCamBien.class
