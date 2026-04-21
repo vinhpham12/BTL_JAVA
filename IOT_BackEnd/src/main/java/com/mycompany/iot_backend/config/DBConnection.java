@@ -8,16 +8,19 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 
 /**
- *
  * @author ADMIN
  */
 public class DBConnection {
+    private static final String URL = "jdbc:mysql://localhost:3306/iot_dashboard";
+    private static final String USER = "root";
+    private static final String PASS = "";
+
     public static Connection getConnection() {
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
-            return DriverManager.getConnection("jdbc:mysql://localhost:3306/iot_dashboard", "root", "");
+            return DriverManager.getConnection(URL, USER, PASS);
         } catch (Exception e) {
-            System.out.println("Lỗi kết nối MySQL: " + e.getMessage());
+            System.out.println("❌ Lỗi kết nối MySQL: " + e.getMessage());
             return null;
         }
     }

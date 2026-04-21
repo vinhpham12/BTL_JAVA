@@ -4,17 +4,16 @@
  */
 package com.mycompany.iot_desktop.view;
 
-/**
- *
- * @author ADMIN
- */
 import com.mycompany.iot_share_core.entity.ThietBi;
 import com.mycompany.iot_desktop.DAO.ThietBiDAO;
-
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.util.ArrayList;
+
+/**
+ * @author ADMIN
+ */
 
 public class QuanLiThietBiFrame extends JFrame {
     private JTable table;

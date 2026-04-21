@@ -4,15 +4,15 @@
  */
 package com.mycompany.iot_desktop.view;
 
-/**
- *
- * @author ADMIN
- */
 import com.mycompany.iot_desktop.DAO.NhatKiHoatDongDAO;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.util.ArrayList;
+
+/**
+ * @author ADMIN
+ */
 
 public class XemNhatKiFrame extends JFrame {
     private JTable table;

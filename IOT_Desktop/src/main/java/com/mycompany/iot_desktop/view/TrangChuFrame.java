@@ -4,15 +4,15 @@
  */
 package com.mycompany.iot_desktop.view;
 
-/**
- *
- * @author ADMIN
- */
 import com.mycompany.iot_share_core.entity.NguoiDung;
 import com.mycompany.iot_desktop.DAO.NhatKiHoatDongDAO;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
+
+/**
+ * @author ADMIN
+ */
 
 public class TrangChuFrame extends JFrame {
     private NguoiDung currentUser;

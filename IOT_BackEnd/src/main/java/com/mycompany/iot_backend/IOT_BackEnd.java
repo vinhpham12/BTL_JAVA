@@ -4,18 +4,16 @@
 
 package com.mycompany.iot_backend;
 
-import com.mycompany.iot_backend.config.DBConnection;
+import com.mycompany.iot_backend.DAO.NhatKiCamBienDAO;
+import com.mycompany.iot_share_core.entity.NhatKiCamBien;
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
 import com.sun.net.httpserver.HttpServer;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.InetSocketAddress;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
 
 /**
- *
  * @author ADMIN
  */
 public class IOT_BackEnd {
@@ -23,9 +21,9 @@ public class IOT_BackEnd {
     public static void main(String[] args) {
         try {
             // Giúp Console hiện tiếng Việt chuẩn
-                System.setOut(new java.io.PrintStream(System.out, true, "UTF-8"));
-            // Xin hệ điều hành mở cổng 82
-            int port=8082;
+            System.setOut(new java.io.PrintStream(System.out, true, "UTF-8"));
+            // Xin hệ điều hành mở cổng 8082
+            int port = 8082;
             HttpServer server = HttpServer.create(new InetSocketAddress(port), 0);
             
             // Định tuyến đường dẫn API
@@ -34,7 +32,7 @@ public class IOT_BackEnd {
             server.start();
             
             System.out.println("==========================================");
-            System.out.println("🚀 IOT BACKEND ĐANG LẮNG NGHE TẠI CỔNG "+port);
+            System.out.println("🚀 IOT BACKEND ĐANG LẮNG NGHE TẠI CỔNG " + port);
             System.out.println("==========================================");
         } catch (Exception e) {
             System.out.println("❌ Lỗi khởi động Server: " + e.getMessage());
@@ -44,24 +42,22 @@ public class IOT_BackEnd {
 
     // Lớp xử lý luồng dữ liệu đến
     static class DataHandler implements HttpHandler {
+        private final NhatKiCamBienDAO dao = new NhatKiCamBienDAO();
+
         @Override
         public void handle(HttpExchange exchange) {
             try {
-                
                 // Chỉ nhận lệnh POST từ mạch ESP32
                 if ("POST".equals(exchange.getRequestMethod())) {
                     InputStream is = exchange.getRequestBody();
-                    String jsonPayload = new String(is.readAllBytes(),"UTF-8");
+                    String jsonPayload = new String(is.readAllBytes(), "UTF-8");
                     
-                    // Ghi thẳng vào DB (Giả định thiết bị ID = 1)
-                    try (Connection conn = DBConnection.getConnection()) {
-                        String sql = "INSERT INTO NhatKyCamBien (ThietBiId, DuLieuJSON) VALUES (1, ?)";
-                        PreparedStatement ps = conn.prepareStatement(sql);
-                        ps.setString(1, jsonPayload);
-                        ps.executeUpdate();
+                    // Dùng DAO để lưu dữ liệu (Giả định thiết bị ID = 1)
+                    NhatKiCamBien log = new NhatKiCamBien(1, jsonPayload);
+                    if (dao.luuDuLieu(log)) {
                         System.out.println("✅ Đã nhận và lưu: " + jsonPayload);
-                    } catch (Exception ex) {
-                        System.out.println("❌ Lỗi ghi DB: " + ex.getMessage());
+                    } else {
+                        System.out.println("❌ Lỗi ghi DB cho dữ liệu: " + jsonPayload);
                     }
 
                     // Phản hồi lại cho mạch biết đã nhận xong

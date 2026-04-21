@@ -4,15 +4,15 @@
  */
 package com.mycompany.iot_desktop.view;
 
-/**
- *
- * @author ADMIN
- */
 import com.mycompany.iot_share_core.entity.NguoiDung;
 import com.mycompany.iot_desktop.DAO.NguoiDungDAO;
 import com.mycompany.iot_desktop.DAO.NhatKiHoatDongDAO;
 import javax.swing.*;
 import java.awt.*;
+
+/**
+ * @author ADMIN
+ */
 
 public class ThemThanhVienFrame extends JFrame {
     

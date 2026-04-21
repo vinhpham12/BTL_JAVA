@@ -4,13 +4,13 @@
  */
 package com.mycompany.iot_desktop.DAO;
 
-/**
- *
- * @author ADMIN
- */
-import com.mycompany.iot_desktop.config.DBConnetion;
+import com.mycompany.iot_desktop.config.DBConnection;
 import java.sql.*;
 import java.util.ArrayList;
+
+/**
+ * @author ADMIN
+ */
 public class NhatKiHoatDongDAO {
     /**
      * Ghi lại một hành động của người dùng vào cơ sở dữ liệu.
@@ -20,13 +20,16 @@ public class NhatKiHoatDongDAO {
     public static void ghiLog(String username, String hanhDong) {
         String sql = "INSERT INTO NhatKyHoatDong (Username, HanhDong) VALUES (?, ?)";
         
-        try (Connection conn = DBConnetion.getConnection();
-             PreparedStatement ps = conn.prepareStatement(sql)) {
-            
-            ps.setString(1, username);
-            ps.setString(2, hanhDong);
-            
-            ps.executeUpdate();
+        try (Connection conn = DBConnection.getConnection()) {
+            if (conn == null) {
+                System.err.println("❌ Không thể kết nối DB để ghi nhật ký!");
+                return;
+            }
+            try (PreparedStatement ps = conn.prepareStatement(sql)) {
+                ps.setString(1, username);
+                ps.setString(2, hanhDong);
+                ps.executeUpdate();
+            }
         } catch (Exception e) {
             System.err.println("❌ Lỗi khi ghi nhật ký hoạt động: " + e.getMessage());
             e.printStackTrace();
@@ -41,17 +44,21 @@ public class NhatKiHoatDongDAO {
         ArrayList<Object[]> danhSachLog = new ArrayList<>();
         String sql = "SELECT Username, HanhDong, ThoiGian FROM NhatKyHoatDong ORDER BY ThoiGian DESC";
         
-        try (Connection conn = DBConnetion.getConnection();
-             Statement st = conn.createStatement();
-             ResultSet rs = st.executeQuery(sql)) {
-            
-            while (rs.next()) {
-                // Đóng gói từng dòng thành mảng Object để dễ dàng đưa vào JTable
-                danhSachLog.add(new Object[]{
-                    rs.getString("Username"),
-                    rs.getString("HanhDong"),
-                    rs.getTimestamp("ThoiGian") // Lấy cả ngày và giờ
-                });
+        try (Connection conn = DBConnection.getConnection()) {
+            if (conn == null) {
+                System.err.println("❌ Không thể kết nối DB để tải nhật ký!");
+                return danhSachLog;
+            }
+            try (Statement st = conn.createStatement();
+                 ResultSet rs = st.executeQuery(sql)) {
+                while (rs.next()) {
+                    // Đóng gói từng dòng thành mảng Object để dễ dàng đưa vào JTable
+                    danhSachLog.add(new Object[]{
+                        rs.getString("Username"),
+                        rs.getString("HanhDong"),
+                        rs.getTimestamp("ThoiGian") // Lấy cả ngày và giờ
+                    });
+                }
             }
         } catch (Exception e) {
             System.err.println("❌ Lỗi khi tải danh sách nhật ký: " + e.getMessage());

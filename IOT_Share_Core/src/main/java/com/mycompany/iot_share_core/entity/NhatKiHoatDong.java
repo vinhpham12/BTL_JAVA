@@ -4,11 +4,11 @@
  */
 package com.mycompany.iot_share_core.entity;
 
+import java.util.Date;
+
 /**
- *
  * @author ADMIN
  */
-import java.util.Date;
 
 public class NhatKiHoatDong {
     private long id;

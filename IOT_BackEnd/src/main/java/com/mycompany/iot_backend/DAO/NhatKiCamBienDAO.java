@@ -10,22 +10,25 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 
 /**
- *
  * @author ADMIN
  */
 public class NhatKiCamBienDAO {
-    // Hàm lưu dữ liệu cảm biến (Nhận đốii tượng Entity từ Core)
+    // Hàm lưu dữ liệu cảm biến (Nhận đối tượng Entity từ Core)
     public boolean luuDuLieu(NhatKiCamBien log) {
         String sql = "INSERT INTO NhatKyCamBien (ThietBiId, DuLieuJSON) VALUES (?, ?)";
-        try (Connection conn = DBConnection.getConnection();
-             PreparedStatement ps = conn.prepareStatement(sql)) {
-            ps.setInt(1, log.getThietBiId());
-            ps.setString(2, log.getDuLieuJson());
-            return ps.executeUpdate() > 0;
+        try (Connection conn = DBConnection.getConnection()) {
+            if (conn == null) {
+                System.out.println("❌ Không thể kết nối DB để lưu dữ liệu cảm biến!");
+                return false;
+            }
+            try (PreparedStatement ps = conn.prepareStatement(sql)) {
+                ps.setInt(1, log.getThietBiId());
+                ps.setString(2, log.getDuLieuJson());
+                return ps.executeUpdate() > 0;
+            }
         } catch (Exception e) { 
             e.printStackTrace(); 
             return false;
         }
     }
-    
 }
