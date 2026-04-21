@@ -24,8 +24,8 @@ public class IOT_BackEnd {
         try {
             // Giúp Console hiện tiếng Việt chuẩn
                 System.setOut(new java.io.PrintStream(System.out, true, "UTF-8"));
-            // Xin hệ điều hành mở cổng 81
-            int port=8080;
+            // Xin hệ điều hành mở cổng 82
+            int port=8082;
             HttpServer server = HttpServer.create(new InetSocketAddress(port), 0);
             
             // Định tuyến đường dẫn API
